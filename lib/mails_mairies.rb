@@ -5,7 +5,6 @@ require 'open-uri'
 
 def get_townhall_urls
 	cities = []
-	results_hash = []
 	doc = Nokogiri::HTML(open("http://www.annuaire-des-mairies.com/val-d-oise"))
 		doc.xpath('//p/a').each do |city|
 		cities << city.text
@@ -14,31 +13,28 @@ def get_townhall_urls
 		#puts townhall_url
 		get_townhall_email(townhall_url)
 		end
-
+	return cities
 end
 
 def get_townhall_email(townhall_url)
-
-
 	mails = []
-
-doc = Nokogiri::HTML(open("http://annuaire-des-mairies.com/95/#{townhall_url}.html"))
+	doc = Nokogiri::HTML(open("http://annuaire-des-mairies.com/95/#{townhall_url}.html"))
 	doc.xpath('/html/body/div/main/section[2]/div/table/tbody/tr[4]/td[2]').each do |email|
 	mails << email.text  
 	#puts email.text
 	end
+	return mails
 end
 
-def join
-get_townhall_email = mails
-get_townhall_urls = cities
-results_hash = cities.zip(mails).to_h
-puts results_hash
-	end
+def join(get_townhall_urls, get_townhall_email)
+	results_hash = []
+	results_hash = get_townhall_urls.zip(get_townhall_email).to_h
+	puts results_hash
+end
 
 def perform 
 	get_townhall_urls
-	join 
+	join(get_townhall_urls, get_townhall_email)
 end
 
 perform
