@@ -10,7 +10,7 @@ def get_townhall_urls
 		cities << city.text
 		townhall_url = city.text.downcase
 		townhall_url = townhall_url.gsub(' ', '-')
-		#puts townhall_url
+		puts townhall_url
 		get_townhall_email(townhall_url)
 		end
 	return cities
@@ -21,7 +21,7 @@ def get_townhall_email(townhall_url)
 	doc = Nokogiri::HTML(open("http://annuaire-des-mairies.com/95/#{townhall_url}.html"))
 	doc.xpath('/html/body/div/main/section[2]/div/table/tbody/tr[4]/td[2]').each do |email|
 	mails << email.text  
-	#puts email.text
+	puts email.text
 	end
 	return mails
 end
