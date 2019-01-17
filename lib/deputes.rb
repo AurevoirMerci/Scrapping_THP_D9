@@ -31,22 +31,22 @@ def scraping_email
 	i = 0
 	if i == 0
 	doc = Nokogiri::HTML(open("https://www.voxpublic.org/spip.php?page=annuaire&cat=deputes&pagnum=50#pagination_deputes"))
-	doc.xpath('//*[@id="content"]/div[1]/ul/li[5]/a').each do |node|
+	doc.xpath('//div[1]/ul/li[5]/a').each do |node|
 	email1 << node.text
 	end
 	end
 	i += 50
 	while i < 600
 	doc = Nokogiri::HTML(open("https://www.voxpublic.org/spip.php?page=annuaire&cat=deputes&pagnum=50&debut_deputes=#{i}#pagination_deputes"))
-	doc.xpath('//*[@id="content"]/div[1]/ul/li[5]/a').each do |node|
+	doc.xpath('//div[1]/ul/li[5]/a').each do |node|
 	  email1 << node.text
 	end
 		i += 50
 	end
 	email1 = email1.select { |v| v.include? "@assemblee-nationale.fr" }
 	email1 = email1.uniq
-	#puts email1.sort
-	#puts email1.size
+	puts email1.sort
+	puts email1.size
 	return email1
 end
 
@@ -60,9 +60,9 @@ def join(scraping_name, scraping_email)
 end
 
 def perform
-	scraping_name
+	#scraping_name
 	scraping_email
-	join(scraping_name, scraping_email)
+	#join(scraping_name, scraping_email)
 end
 
 perform
