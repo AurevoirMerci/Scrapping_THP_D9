@@ -2,23 +2,36 @@ require 'rubygems'
 require 'nokogiri'   
 require 'open-uri'
 
-crypto = []
-price = []
-trading_hash = []
+def cryptozer
+	crypto = []
+	price = []
+	trading_hash = []
+	test1 = []
 
-doc = Nokogiri::HTML(open("https://coinmarketcap.com/all/views/all/"))
+	doc = Nokogiri::HTML(open("https://coinmarketcap.com/all/views/all/"))
 	doc.xpath('//*/td[2]/a').each do |node|
 	  crypto << node.text
 	end
 
-doc = Nokogiri::HTML(open("https://coinmarketcap.com/all/views/all/"))
-	doc.xpath('//*/td[5]/a').each do |node|
-	  price << node.text
+	doc = Nokogiri::HTML(open("https://coinmarketcap.com/all/views/all/"))
+	doc.xpath('//*/td[5]/a').each do |node2|
+	  price << node2.text
 	end
 
-trading_hash = crypto.zip(price).to_h
+price.map! { |word| word.gsub('$', '') }
+#price.map!(&:to_f)
 
-trading_hash.transform_values! { |value| value.delete'$'}
-trading_hash.transform_values! { |value| value.to_f}
+number_of_hash = crypto.size
 
-puts trading_hash
+trading_hash = crypto.zip(price)
+
+
+trading_hash.each { |record2, record| test1 << { record2[0..number_of_hash] => record[0..number_of_hash] } }
+
+#test1.transform_values! { |value| value.to_f}
+
+puts test1
+
+end
+
+cryptozer
