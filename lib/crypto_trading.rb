@@ -15,7 +15,7 @@ def cryptozer
 
 	doc = Nokogiri::HTML(open("https://coinmarketcap.com/all/views/all/"))
 	doc.xpath('//*/td[5]/a').each do |node2|
-	  price << node2.text.delete("$")#.to_f
+	  price << node2.text.delete("$")
 	end
 
 number_of_hash = crypto.size
